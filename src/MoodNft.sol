@@ -44,10 +44,10 @@ contract MoodNft is ERC721{
     }
 
     function flipMood(uint256 tokenId) public onlyOwner(tokenId) {
-        if(s_tokenIdToMood[s_tokenCounter] == Mood.HAPPY){
-            s_tokenIdToMood[s_tokenCounter] = Mood.SAD;
+        if(s_tokenIdToMood[tokenId] == Mood.HAPPY){
+            s_tokenIdToMood[tokenId] = Mood.SAD;
         } else {
-            s_tokenIdToMood[s_tokenCounter] = Mood.HAPPY;
+            s_tokenIdToMood[tokenId] = Mood.HAPPY;
         }
     }
 

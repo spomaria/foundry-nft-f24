@@ -27,6 +27,9 @@ build:; forge build
 
 test :; forge test 
 
+test-fork:
+	@forge test $(NETWORK_ARGS)
+
 snapshot :; forge snapshot
 
 format :; forge fmt
@@ -39,8 +42,15 @@ ifeq ($(findstring --network sepolia,$(ARGS)),--network sepolia)
 	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL) --private-key $(PRIVATE_KEY) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API_KEY) -vvvv
 endif
 
+ifeq ($(findstring sepolia,$(ARGS)),sepolia)
+	NETWORK_ARGS := --rpc-url $(SEPOLIA_RPC_URL)
+endif
+
 deploy:
 	@forge script script/DeployBasicNft.s.sol:DeployBasicNft $(NETWORK_ARGS)
+
+deploy-moodNft:
+	@forge script script/DeployMoodNft.s.sol:DeployMoodNft $(NETWORK_ARGS)
 
 # cast abi-encode "constructor(uint256)" 1000000000000000000000000 -> 0x00000000000000000000000000000000000000000000d3c21bcecceda1000000
 # Update with your contract address, constructor arguments and anything else
@@ -49,3 +59,6 @@ verify:
 
 mint:
 	@forge script script/Interactions.s.sol:MintBasicNft $(NETWORK_ARGS)
+
+mintMoodNft:
+	@forge script script/Interactions.s.sol:MintMoodNft $(NETWORK_ARGS)
